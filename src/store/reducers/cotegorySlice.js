@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    loadingCotegories:false,
+    loadingCategories:false,
     categories:[]
 }
 
@@ -10,14 +10,14 @@ export const categorySlice = createSlice({
     initialState,
     reducers:{
         fetchingCategories: state =>{
-            state.loadingCotegories = true
+            state.loadingCategories = true
         },
         fetchedCategories: (state, action) => {
             state.categories = action.payload
-            state.loadingCotegories = false
+            state.loadingCategories = false
         },
         fetchingErrorCategories: state => {
-            loadingCotegories = false
+            loadingCategories = false
         }
     }
 })
