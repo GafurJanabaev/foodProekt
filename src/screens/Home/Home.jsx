@@ -35,7 +35,7 @@ const Home = () => {
     <div className="container mx-auto py-12">
       <Heading>All Categories</Heading>
       <Spin spinning={loadingCategories}>
-        <div className="row">
+        <div className="row" >
           {categories?.map((item) => 
             (<Link to={`/category/${item.strCategory}`}>
               <div className="item">

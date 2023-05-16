@@ -1,6 +1,6 @@
 import { message } from "antd";
 import axios from "axios";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import Heading from "../../components/Heading/Heading";
@@ -10,37 +10,27 @@ import {
   fetchedMeals,
   fetchingErrorMeals,
 } from "../../store/reducers/mealSlice";
-import music from '../../assets/music/music.mp3'
-import './Meals.scss'
 
-const Meals = () => {
+const FilterArea = () => {
   const { meals, loadingMeals } = useSelector((store) => store.meal);
   const {cartMeals} = useSelector(store => store.cart)
   const dispatch = useDispatch();
   const params = useParams();
-  const cartMusicPlayer = useRef()
 
   useEffect(() => {
     dispatch(fetchingMeals());
     axios
-      .get(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${params.categoryName} `)  
+      .get(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${params.areaName}`)  
       .then((res) => {
         dispatch(fetchedMeals(res.data.meals));
       })
       .catch((err) => {
         dispatch(fetchingErrorMeals());
       });
-  },[]);
+  },[params]);
 
   function addingMealToBasket(meal) {
     dispatch(addToCart(meal))
-
-    cartMusicPlayer.current.currentTime = 0
-    cartMusicPlayer.current.play()
-
-    setTimeout(() =>{
-      cartMusicPlayer.current.pause()
-    },2000)
     message.success('Product Add')
   }
 
@@ -49,11 +39,9 @@ const Meals = () => {
   return (
     <div>
       <Heading>
-        Meals of category{""}
-        <b className="text-orange-600">{params.categoryName}</b>
+        Meals of category {" "}
+        <b className="text-orange-600">{params.areaName}</b>
       </Heading>
-
-      <audio className="hidden" src={music} controls ref={cartMusicPlayer}></audio>
 
       <div className="row">
         {meals?.map((item) =>{
@@ -82,4 +70,4 @@ const Meals = () => {
   );
 };
 
-export default Meals;
+export default FilterArea;
